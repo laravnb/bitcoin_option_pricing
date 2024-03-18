@@ -1,6 +1,6 @@
 import numpy as np
 
-# Monte Carlo Simulations for Option Pricing using Brownian motion
+# Using Monte Carlo Simulations for Option Pricing using Brownian motion
 N = 10000  #simulations
 n = 365  # Number of steps or intervals in the simulation 
 mc_prices = []
