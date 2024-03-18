@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 #Read the input parameters from the file 'final_data.csv'
 data = pd.read_csv('final_data.csv')
 
-#Extract the input parameters
+#Extract the input parameters for option pricing
 S = data['Bitcoin Price'].values    
 K = data['Exercise Price'].values
 r = data['Interest Rate'].values
@@ -28,7 +28,7 @@ def c_mc_options_pricing (S, K, r, T, sigma, N, n):
     payoff = np.maximum(S[:, -1] - K, 0)
     # Calculating the price of the option and discounting it back to present value
     C_mc_c = np.mean(payoff) * np.exp(-r * T)
-    # Round the solution to 2 decimal places
+    # Round the solution to 3 decimal places
     C_mc_c = round(C_mc_c, 3)
     return C_mc_c
 # Put options function
@@ -41,7 +41,7 @@ def p_mc_options_pricing (S, K, r, T, sigma, N, n):
     payoff = np.maximum(K - S[:, -1], 0)
     # Calculating the price of the option and discounting it back to present value
     C_mc_p = np.mean(payoff) * np.exp(-r * T)
-    # Round the solution to 2 decimal places
+    # Round the solution to 3 decimal places
     C_mc_p = round(C_mc_p, 3)
     return C_mc_p
 
@@ -112,7 +112,6 @@ data.to_csv('C_tt.csv', index=False)
 
 ### Calculate the option price using the finite difference method to solve the Black-Scholes PDE
 def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax, M, N):
-    # T = T * 365     # Convert T to days for the grid --> values more precise 
     dt = T / N
     ds = Smax / M
     S = np.arange(M + 1) * ds
@@ -158,17 +157,8 @@ for i, row in data.iterrows():
 
 # Add the finite difference price to the dataset and save it to a file
 data['Finite Difference Price'] = fd_prices
+
 #drop all columns except the different option prices
 data = data.drop(columns=['Date', 'Instrument', 'Option Type','Bitcoin Price', 'Exercise Price', 'Interest Rate', 'Expiration', 'Volatility'])
 data.to_csv('C_fd.csv', index=False)
 
-# # plot the three different option prices
-# plt.plot(data['Monte Carlo Price'], label='Monte Carlo Price')
-# plt.plot(data['Trinomial Tree Price'], label='Trinomial Tree Price')
-# plt.plot(data['Finite Difference Price'], label='Finite Difference Price')
-# plt.plot(data['Bitcoin Price'], label='Bitcoin Price')
-# plt.xlabel('Option Index')
-# plt.ylabel('Option Price')
-# plt.title('Option Prices')
-# plt.legend()
-# plt.show()
