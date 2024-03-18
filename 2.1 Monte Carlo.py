@@ -32,5 +32,6 @@ def p_mc_options_pricing (S, K, r, T, sigma, N, n):
     C_mc_p = round(C_mc_p, 3)
     return C_mc_p
 
+# Example
 S, T, r, sigma, n, N, K = 35468, 0.041, 0.0014, 0.604, 365, 10000, 25000
 print(c_mc_options_pricing(S, K, r, T, sigma, N, n))
