@@ -25,9 +25,6 @@ def tt_option_pricing (S,T,r,sigma,K, periods, option_type):
     C_tt = np.zeros((2*periods+1, periods+1))
 
     # Calculate the stock price at each node at maturity
-    # Calculate Option prices at each node at maturity
-    # Interating through the last collumn of nodes in the tree
-    # okay, u and d factors related --> implicitly uses d as well since u = 1/d
     for j in range(0, 2*periods+1):
         St[j, periods] = S*np.power(u, periods-j)
         C_tt[j, periods] = max(0, cp*(St[j, periods]-K))
