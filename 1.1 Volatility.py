@@ -23,14 +23,15 @@ def calculate_historical_vols(df, sessions_in_year):
         df = df.assign(Volatility=Volatility)
     return df
 
-# import data as df from the file 'BTC-USD.csv'
+# import historical bitcoin data as df from the file 'BTC-USD.csv'
 df = pd.read_csv('Data/BTC-USD.csv')
 
 # Call the function to calculate historical vols
 df = calculate_historical_vols(df, sessions_in_year=365)
 # Round the values to 4 decimal places
 df = df.round(3)
-df = df[df['Date'] >= '2022-05-06']
 # Drop all other collumns
 df = df.drop(['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'log_returns', 'sd_15_day'], axis=1)
-df.to_csv('historical_volatility.csv', index=False)  # Save to a new file
+
+# Save volatility to a new file
+df.to_csv('historical_volatility.csv', index=False) 
