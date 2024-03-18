@@ -1,7 +1,7 @@
 import numpy as np
 
+# Calculate option prices using the explicit finite difference method
 def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax, M, N):
-    T = T * 365
     dt = T / N
     ds = Smax / M
     print('dt:', dt, 'ds:', ds)
@@ -36,7 +36,7 @@ def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax, M, N):
     C_fd = np.interp(S0, S, C[:, 0])
     return round(C_fd, 3)
 
-# Example usage
+# Example
 T = 0.049
 S0 = 30095
 K = 25000
@@ -48,24 +48,3 @@ M = 200
 
 option_price = fd_option_pricing('C',S0, K, r, T, sigma, S_max, M, N)
 print(option_price)
-
-# Plot the option price
-# plt.plot(S0, option_price[:, 0])
-# plt.xlabel('Stock Price')
-# plt.ylabel('Option Price')
-# plt.title('Option Price at t=0')
-# plt.show()
-
-# # Plotting the results
-# dt = T / N
-# time_steps = np.arange(N + 1) * dt
-# S, T = np.meshgrid(S, time_steps)
-
-# fig = plt.figure(figsize=(12, 8))
-# ax = fig.add_subplot(111, projection='3d')
-# ax.plot_surface(S, T, option_price_c.T, cmap='viridis')
-# ax.set_xlabel('Asset Price (S)')
-# ax.set_ylabel('Time to Expiration (T)')
-# ax.set_zlabel('Option Value')
-# ax.set_title('European Call Option Pricing using Explicit FDM')
-# plt.show()
