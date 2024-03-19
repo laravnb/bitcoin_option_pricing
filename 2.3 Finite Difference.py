@@ -34,7 +34,7 @@ def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax, M, N):
 
     # Interpolate to get option price at S0
     C_fd = np.interp(S0, S, C[:, 0])
-    return round(C_fd, 3)
+    return C_fd
 
 # Example
 T, S0, K, sigma, r, S_max, N, M = 0.049, 30095, 25000, 0.649, 0.0014, K*2, 200, 200
