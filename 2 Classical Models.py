@@ -28,8 +28,6 @@ def c_mc_options_pricing (S, K, r, T, sigma, N, n):
     payoff = np.maximum(S[:, -1] - K, 0)
     # Calculating the price of the option and discounting it back to present value
     C_mc_c = np.mean(payoff) * np.exp(-r * T)
-    # Round the solution to 3 decimal places
-    C_mc_c = round(C_mc_c, 3)
     return C_mc_c
 # Put options function
 def p_mc_options_pricing (S, K, r, T, sigma, N, n):
@@ -41,8 +39,6 @@ def p_mc_options_pricing (S, K, r, T, sigma, N, n):
     payoff = np.maximum(K - S[:, -1], 0)
     # Calculating the price of the option and discounting it back to present value
     C_mc_p = np.mean(payoff) * np.exp(-r * T)
-    # Round the solution to 3 decimal places
-    C_mc_p = round(C_mc_p, 3)
     return C_mc_p
 
 # Calculate the Monte Carlo price for each option in the dataset
@@ -96,8 +92,6 @@ def tt_option_pricing (S,T,r,sigma,K, periods, option_type):
         for j in range(0, 2*i+1):
             St[j, i] = St[j, i+1]*u
             C_tt[j, i] = disc *(pu*C_tt[j, i+1]+pm*C_tt[j+1, i+1]+pd*C_tt[j+2, i+1])
-    
-    C_tt[0,0] = round(C_tt[0,0], 3)
 
     return C_tt[0, 0]
 
@@ -144,7 +138,6 @@ def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax, M, N):
     
     # Interpolate to get option price at S0
     C_fd = np.interp(S0, S, C[:, 0])
-    C_fd = round(C_fd, 3)
     return C_fd
 
 ### Calculate the finite difference price for each option in the dataset
