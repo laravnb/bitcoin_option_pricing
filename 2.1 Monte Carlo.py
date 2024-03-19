@@ -15,8 +15,6 @@ def c_mc_options_pricing (S, K, r, T, sigma, N, n):
     payoff = np.maximum(S[:, -1] - K, 0)
     # Calculating the price of the option and discounting it back to present value
     C_mc_c = np.mean(payoff) * np.exp(-r * T)
-    # Round the solution to 2 decimal places
-    C_mc_c = round(C_mc_c, 3)
     return C_mc_c
 # Put options
 def p_mc_options_pricing (S, K, r, T, sigma, N, n):
@@ -28,8 +26,6 @@ def p_mc_options_pricing (S, K, r, T, sigma, N, n):
     payoff = np.maximum(K - S[:, -1], 0)
     # Calculating the price of the option and discounting it back to present value
     C_mc_p = np.mean(payoff) * np.exp(-r * T)
-    # Round the solution to 2 decimal places
-    C_mc_p = round(C_mc_p, 3)
     return C_mc_p
 
 # Example
