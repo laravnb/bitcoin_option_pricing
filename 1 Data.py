@@ -26,7 +26,7 @@ for file in files:
     combined_df = combined_df.append(merged_df, ignore_index=True)
 
 # clearing all unnecessary columns (and removing NaN values)
-df2 = combined_df.drop(['Last', 'Size', 'IV (Bid)', 'Mark', 'IV (Ask)','Close'], axis = 1)
+df2 = combined_df.drop(['Last', 'Size', 'IV (Bid)', 'IV (Ask)','Close'], axis = 1)
 df2 = df2.drop(['Size.1', 'Open', 'Δ|Delta', 'Gamma', 'Theta', 'Vega', 'Rho', 'Volume', ], axis = 1)
 # dropt all rows if there is a '-' value
 df2 = df2.replace('-', np.nan)
@@ -37,6 +37,7 @@ K = []
 exercise_prices = []
 expirations = []
 option_types = []
+market_prices = []
 
 for i, row in df2.iterrows():
     # extract the exercise price from the first collumn ,first collumn, integer after the second '-'
@@ -51,14 +52,20 @@ for i, row in df2.iterrows():
     expiration = round(row['Expiration']/ 365, 3)
     expirations.append(expiration)
 
-df2['Exercise Price'], df2['Option Type'], df2['Expiration'] = exercise_prices, option_types, expirations
+    # Convert the market price from BTC to USD
+    bitcoin_price = pd.to_numeric(row['Bitcoin Price'].replace(',', ''))
+    mark = pd.to_numeric(row['Mark'])
+    market_price = mark * bitcoin_price
+    market_prices.append(market_price)
+
+df2['Exercise Price'], df2['Option Type'], df2['Expiration'], df2['Market Price'] = exercise_prices, option_types, expirations, market_prices
  
 #rearrainging the columns such that the date is first
-df2 = df2[['Date', 'Instrument', 'Option Type', 'Bitcoin Price', 'Expiration', 'Interest Rate', 'Exercise Price', 'Volatility', 'Ask', 'Bid']]
-# df2 = df2.sort_values(by='Date', ascending=True)
+df2 = df2[['Date', 'Instrument', 'Option Type', 'Bitcoin Price', 'Market Price', 'Expiration', 'Interest Rate', 'Exercise Price', 'Volatility', 'Ask', 'Bid']]
 
 #Turn the collumns into a series list
 df2['Bitcoin Price'] = pd.to_numeric(df2['Bitcoin Price'].str.replace(',', ''))
+df2['Market Price'] = pd.to_numeric(df2['Market Price'].replace(',', ''))
 df2['Expiration'] = pd.to_numeric(df2['Expiration']) 
 df2['Interest Rate'] = pd.to_numeric(df2['Interest Rate'].str.replace(',', '.'))
 df2['Exercise Price'] = pd.to_numeric(df2['Exercise Price'])
