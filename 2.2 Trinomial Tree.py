@@ -37,10 +37,7 @@ def tt_option_pricing (S,T,r,sigma,K, periods, option_type):
             St[j, i] = St[j, i+1]*u
             # dicounting the option price at each node back to present value
             # Calculate the option price using the transition probabilities
-            C_tt[j, i] = disc *(pu*C_tt[j, i+1]+pm*C_tt[j+1, i+1]+pd*C_tt[j+2, i+1])
-
-    C_tt = round(C_tt, 3)
-        
+            C_tt[j, i] = disc *(pu*C_tt[j, i+1]+pm*C_tt[j+1, i+1]+pd*C_tt[j+2, i+1])        
     return C_tt[0, 0]
 
 # Example
