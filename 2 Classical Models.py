@@ -14,7 +14,7 @@ sigma = data['Volatility'].values
 option_types = data['Option Type'].values
 
 ### Monte Carlo simulations using Brownian motion
-N = 1000  #simulations
+N = 10000  #simulations
 n = 365  # Number of steps or intervals in the simulation 
 mc_prices = []
 
