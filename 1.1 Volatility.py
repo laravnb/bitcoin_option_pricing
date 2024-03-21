@@ -28,8 +28,6 @@ df = pd.read_csv('Data/BTC-USD.csv')
 
 # Call the function to calculate historical vols
 df = calculate_historical_vols(df, sessions_in_year=365)
-# Round the values to 4 decimal places
-df = df.round(3)
 # Drop all other collumns
 df = df.drop(['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'log_returns', 'sd_15_day'], axis=1)
 
