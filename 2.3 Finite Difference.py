@@ -39,5 +39,5 @@ def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax, N, M):
 # Example
 T, S0, K, sigma, r, S_max, N, M  = 0.049, 30095, 25000, 0.649, 0.0014, K*2, 1000, 100
 
-option_price = fd_option_pricing('C',S0, K, r, T, sigma, S_max)
+option_price = fd_option_pricing('C',S0, K, r, T, sigma, S_max, N, M)
 print(option_price)
