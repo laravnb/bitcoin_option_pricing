@@ -1,11 +1,7 @@
 import numpy as np
 
 # Calculate option prices using the explicit finite difference method
-def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax):
-    # grid size is 3T
-    N = int(3 * T * 365)        # Number of time steps in grid
-    M = int(3 * T * Smax)       # Number of asset price steps in grid
-    
+def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax, N, M):    
     dt = T / N
     ds = Smax / M
     print('dt:', dt, 'ds:', ds)
@@ -41,7 +37,7 @@ def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax):
     return C_fd
 
 # Example
-T, S0, K, sigma, r, S_max = 0.049, 30095, 25000, 0.649, 0.0014, K*2
+T, S0, K, sigma, r, S_max, N, M  = 0.049, 30095, 25000, 0.649, 0.0014, K*2, 1000, 100
 
 option_price = fd_option_pricing('C',S0, K, r, T, sigma, S_max)
 print(option_price)
