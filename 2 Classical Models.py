@@ -105,10 +105,7 @@ data.to_csv('C_tt.csv', index=False)
 
 
 ### Calculate the option price using the finite difference method to solve the Black-Scholes PDE
-def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax):
-    # grid size is 3T
-    N = int(3 * T * 365)        # Number of time steps in grid
-    M = int(3 * T * Smax)       # Number of asset price steps in grid
+def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax, N, M):
     dt = T / N
     ds = Smax / M
     S = np.arange(M + 1) * ds
@@ -145,9 +142,11 @@ def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax):
 
 # Calculate the finite difference price for each option in the dataset
 fd_prices = []
+N = 1000
+M = 100
 
 for i, row in data.iterrows():
-    fd_prices.append(fd_option_pricing(option_types[i], S[i], K[i], r[i], T[i], sigma[i], S_max))
+    fd_prices.append(fd_option_pricing(option_types[i], S[i], K[i], r[i], T[i], sigma[i], S_max, N, M))
 
 # Add the finite difference price to the dataset and save it to a file
 data['Finite Difference Price'] = fd_prices
