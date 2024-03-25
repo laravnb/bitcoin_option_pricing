@@ -105,45 +105,45 @@ data.to_csv('C_tt.csv', index=False)
 
 
 ### Calculate the option price using the finite difference method to solve the Black-Scholes PDE
-def fd_option_pricing(option_type, S0, K, r, T, sigma, Smax, N, M):
+def fd_option_pricing(S0, K, r, T, sigma, Smax, M, N, option_type):
+    # Calculate time and asset step sizes
     dt = T / N
     ds = Smax / M
-    S = np.arange(M + 1) * ds
-    t = np.arange(N + 1) * dt
-
-    alpha = 0.5 * sigma**2 * dt / ds**2
-    beta = 0.5 * r * dt / ds
-    gamma = r * dt
     
-    # Initialize terminal condition for put and call options
-    C = np.zeros((M + 1, N + 1))
-    if option_type == 'C':
-        C[:, -1] = np.maximum(S - K, 0)
-    elif option_type == 'P':
-        C[:, -1] = np.maximum(K - S, 0)
-
-    # Apply explicit finite difference method
-    for j in range(N - 1, -1, -1):
-        for i in range(1, M):
-            C[i, j] = alpha * C[i + 1, j + 1] + (1 - 2 * alpha - beta + gamma) * C[i, j + 1] + alpha * C[i - 1, j + 1] + beta * C[i + 1, j + 1]
-
-        # Apply boundary conditions
-        if option_type == 'C':
-            C[0, j] = 0
-            C[-1, j] = Smax - K * np.exp(-r * (N - j) * dt)
-
-        elif option_type == 'P':
-            C[0, j] = K * np.exp(-r * (N - j) * dt)
-            C[-1, j] = 0
+    # Generate arrays for asset and time indices
+    S = np.arange(M)
+    t = np.arange(N)
     
-    # Interpolate to get option price at S0
-    C_fd = np.interp(S0, S, C[:, 0])
+    # Initialize the grid and boundary conditions
+    grid = np.zeros(shape=(M+1, N+1))
+    boundary_conds = np.linspace(0, Smax, M+1)
+
+    # Set boundary conditions depending on option type
+    if option_type == 'P':
+        grid[:, -1] = np.maximum(0, K - boundary_conds)
+        grid[0, :-1] = (K - Smax) * np.exp(-r * dt * (N - t))
+    else:
+        grid[:, -1] = np.maximum(0, boundary_conds - K)
+        grid[-1, :-1] = (Smax - K) * np.exp(-r * dt * (N - t))
+
+    # Calculate coefficients for the finite difference method
+    a = 0.5 * dt * ((sigma ** 2) * (S ** 2) - r * S)
+    b = 1 - dt * ((sigma ** 2) * (S ** 2) + r)
+    c = 0.5 * dt * ((sigma ** 2) * (S ** 2) + r * S)
+    
+    # Iterate through the grid points to compute option prices
+    for j in reversed(t):
+        for i in range(M)[2:]:
+            grid[i, j] = a[i] * grid[i-1, j+1] + b[i] * grid[i, j+1] + c[i] * grid[i+1, j+1]
+    
+    # Interpolate to find option price at S0
+    C_fd = np.interp(S0, boundary_conds, grid[:, 0])
     return C_fd
 
 # Calculate the finite difference price for each option in the dataset
 fd_prices = []
-N = 1000
-M = 100
+N = 500
+M = 50
 
 for i, row in data.iterrows():
     fd_prices.append(fd_option_pricing(option_types[i], S[i], K[i], r[i], T[i], sigma[i], S_max, N, M))
