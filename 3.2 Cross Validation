@@ -1,0 +1,52 @@
+import numpy as np
+import tensorflow as tf
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from keras.models import Sequential
+from keras.layers import Dense
+from sklearn.preprocessing import MinMaxScaler
+from keras.metrics import MeanAbsolutePercentageError
+from keras.wrappers.scikit_learn import KerasRegressor
+from sklearn.model_selection import cross_val_score
+
+# Function to evaluate the neural network
+def nn_model ():
+    nn_model = Sequential()
+    nn_model.add(Dense(2, input_dim=3, activation='sigmoid'))
+    nn_model.add(Dense(1, activation='linear'))
+    nn_model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mae', MeanAbsolutePercentageError()])
+    return nn_model
+
+# setting the seed for reproducibility
+np.random.seed(19)
+tf.random.set_seed(19)
+
+# Import the input data
+# Assumes file named "Input.csv" exists with Monte Carlo, Trinomial Tree, Finite Difference and Option Market price exists
+data = pd.read_csv('Input.csv')
+
+# Extract features and target variable
+x = data[['Monte Carlo Price', 'Trinomial Tree Price', 'Finite Difference Price']]
+y = data['Market Price']
+
+# Initialize MinMaxScaler objects for input and output
+input_scaler = MinMaxScaler()
+output_scaler = MinMaxScaler()
+
+# Scale data
+x_scaled = input_scaler.fit_transform(x)
+y_scaled = output_scaler.fit_transform(y.values.reshape(-1, 1)) 
+
+# create kerasregressor wrapper for the model
+nn_regressor = KerasRegressor(build_fn=nn_model, epochs=150, batch_size=15, verbose=0)
+
+# Evaluate using cross-validation
+cv_scores_mse = cross_val_score(nn_regressor, x_scaled, y_scaled, cv=10)
+
+# Print the cross-validation scores
+print("Cross-Validation MSE Scores:", cv_scores_mse)
+
+# Calculate the mean and standard deviation of the cross-validation scores
+print("Mean CV MSE:", np.mean(cv_scores_mse))
+
+
