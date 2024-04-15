@@ -91,20 +91,20 @@ data.to_csv('NN.csv', index=False)
 
 # Save the model with json
 # model_json = nn_model.to_json()
-# with open("Models/nn_architecture_c.json", "w") as json_file:
+# with open("Models/nn_architecture.json", "w") as json_file:
 #     json_file.write(model_json)
 
 # Save the weights
-# nn_model.save_weights("Models/nn_weights_c.h5")
+# nn_model.save_weights("Models/nn_weights.h5")
 # print("Model saved ")
 
 
 # from keras.models import model_from_json
 # Load the model
-# json_file = open('Models/nn_architecture_c.json', 'r')
+# json_file = open('Models/nn_architecture.json', 'r')
 # loaded_model_json = json_file.read()
 # json_file.close()
 # loaded_model = model_from_json(loaded_model_json)
 # # Load weights into new model
-# loaded_model.load_weights("Models/nn_weights_c.h5")
+# loaded_model.load_weights("Models/nn_weights.h5")
 # print("Model loaded")
