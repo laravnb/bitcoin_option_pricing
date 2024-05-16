@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+## Combines Monte Carlo, Trinomial Tree and Finite Difference models
+
 #Read the input parameters from the file 'final_data.csv'
 data = pd.read_csv('final_data.csv')
 
