@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 ## Combines Monte Carlo, Trinomial Tree and Finite Difference models
 
-#Read the input parameters from the file 'final_data.csv'
-data = pd.read_csv('final_data.csv')
+#Read the input parameters from the file 'final_data_c.csv' or 'final_data_p.csv'
+data = pd.read_csv('final_data_c.csv')
 
 #Extract the input parameters for option pricing
 S = data['Bitcoin Price'].values    
@@ -53,7 +53,7 @@ for i, row in data.iterrows():
 
 # Add the Monte Carlo price to the dataset (and save it to a file)
 data['Monte Carlo Price'] = mc_prices
-data.to_csv('C_mc.csv', index=False)
+#data.to_csv('C_mc.csv', index=False)
 
 
 ### Calculate the Trinomial Tree price for each option in the dataset
@@ -103,7 +103,7 @@ for i, row in data.iterrows():
 
 # Add the Trinomial Tree price to the dataset and save it to a file
 data['Trinomial Tree Price'] = tt_prices
-data.to_csv('C_tt.csv', index=False)
+#data.to_csv('C_tt.csv', index=False)
 
 
 ### Calculate the option price using the finite difference method to solve the Black-Scholes PDE
@@ -155,5 +155,7 @@ data['Finite Difference Price'] = fd_prices
 
 #drop all columns except the different option prices
 data = data.drop(columns=['Date', 'Instrument', 'Option Type','Bitcoin Price', 'Exercise Price', 'Interest Rate', 'Expiration', 'Volatility'])
-data.to_csv('C_fd.csv', index=False)
+#data.to_csv('C_fd.csv', index=False)
+data.to_csv('Input_c.csv', index=False)
+
 
