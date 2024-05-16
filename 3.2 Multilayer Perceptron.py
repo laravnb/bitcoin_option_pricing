@@ -88,6 +88,14 @@ data = data.dropna()
 # Save the dataset to a csv file
 data.to_csv('NN_c.csv', index=False)
 
+#plot the training and test loss
+plt.plot(history.history['loss'], label='Train')
+plt.plot(history.history['val_loss'], label='Test')
+plt.title('Train vs Test MSE of NN')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(loc='upper right')
+plt.show()
 
 # Save the model with json
 # model_json = nn_model.to_json()
