@@ -37,8 +37,8 @@ def train_test_split(data, test_size):
     return train_data, test_data
 
 # setting the seed for reproducibility of weights 
-np.random.seed(9)
-tf.random.set_seed(9)
+np.random.seed(19)
+tf.random.set_seed(19)
 
 # Import the input data
 data = pd.read_csv('Input_p.csv')
