@@ -156,6 +156,6 @@ data['Finite Difference Price'] = fd_prices
 #drop all columns except the different option prices
 data = data.drop(columns=['Date', 'Instrument', 'Option Type','Bitcoin Price', 'Exercise Price', 'Interest Rate', 'Expiration', 'Volatility'])
 #data.to_csv('C_fd.csv', index=False)
-data.to_csv('Input_c.csv', index=False)
+data.to_csv('Input_ML_c.csv', index=False)
 
 
