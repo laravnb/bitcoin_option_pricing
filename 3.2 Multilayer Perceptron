@@ -34,8 +34,8 @@ np.random.seed(19)
 tf.random.set_seed(19)
 
 # Import the input data
-# Assumes file named "Input.csv" exists with Monte Carlo, Trinomial Tree, Finite Difference and Option Market price exists
-data = pd.read_csv('Input.csv')
+# Assumes file named "Input_c.csv" exists with Monte Carlo, Trinomial Tree, Finite Difference and Option Market price exists
+data = pd.read_csv('Input_c.csv')
 
 # Extract features and target variable
 x = data[['Monte Carlo Price', 'Trinomial Tree Price', 'Finite Difference Price']]
@@ -86,7 +86,7 @@ data['NN Price'] = C_nn
 data = data.dropna()
 
 # Save the dataset to a csv file
-data.to_csv('NN.csv', index=False)
+data.to_csv('NN_c.csv', index=False)
 
 
 # Save the model with json
